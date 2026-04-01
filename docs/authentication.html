@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Authentication — Furtune.DEV</title>
+  <style>
+    :root {
+      --bg: #0d0d14;
+      --surface: #13131f;
+      --surface2: #1a1a2e;
+      --border: #2a2a45;
+      --accent: #7c6af7;
+      --accent2: #a78bfa;
+      --gold: #f0c060;
+      --green: #34d399;
+      --red: #f87171;
+      --yellow: #fbbf24;
+      --blue: #60a5fa;
+      --text: #e2e2f0;
+      --muted: #8888aa;
+      --code-bg: #0a0a16;
+      --radius: 10px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.7; }
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .layout { display: flex; min-height: 100vh; }
+    nav { width: 260px; min-width: 260px; background: var(--surface); border-right: 1px solid var(--border); padding: 32px 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+    .nav-logo { padding: 0 24px 28px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .nav-logo .brand { font-size: 18px; font-weight: 700; color: var(--accent2); letter-spacing: -0.3px; }
+    .nav-logo .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .nav-section { padding: 0 24px 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-top: 12px; }
+    nav a { display: block; padding: 7px 24px; color: var(--muted); font-size: 14px; }
+    nav a:hover, nav a.active { color: var(--text); text-decoration: none; }
+    nav a.active { color: var(--accent2); font-weight: 500; }
+    main { flex: 1; padding: 60px 80px; max-width: 860px; }
+    @media (max-width: 900px) { nav { display: none; } main { padding: 40px 24px; max-width: 100%; } }
+    h1 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+    h2 { font-size: 24px; font-weight: 700; margin: 52px 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 17px; font-weight: 600; margin: 28px 0 10px; color: var(--accent2); }
+    p { margin-bottom: 14px; color: #c8c8e0; }
+    .lead { font-size: 17px; color: #b0b0cc; margin-bottom: 32px; line-height: 1.6; }
+    .badge { display: inline-block; padding: 2px 9px; border-radius: 99px; font-size: 11px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; }
+    .badge-guardian { background: linear-gradient(90deg,#7c3aed,#a78bfa); color: #fff; }
+    .callout { border-left: 3px solid; padding: 14px 18px; border-radius: 0 var(--radius) var(--radius) 0; margin: 20px 0; font-size: 14px; }
+    .callout-info { border-color: var(--accent); background: #1a1a35; }
+    .callout-warning { border-color: var(--gold); background: #1e1a0a; }
+    .callout-tip { border-color: var(--green); background: #0a1e14; }
+    .callout strong { display: block; margin-bottom: 4px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .callout-info strong { color: var(--accent2); }
+    .callout-warning strong { color: var(--gold); }
+    .callout-tip strong { color: var(--green); }
+    pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; overflow-x: auto; margin: 14px 0 24px; }
+    code { font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace; font-size: 13px; line-height: 1.6; color: #c8d3f5; }
+    p code, li code, td code { background: var(--code-bg); border: 1px solid var(--border); padding: 1px 6px; border-radius: 5px; font-size: 12.5px; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0 28px; font-size: 14px; }
+    th { text-align: left; padding: 9px 14px; background: var(--surface2); border: 1px solid var(--border); font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    td { padding: 9px 14px; border: 1px solid var(--border); vertical-align: top; }
+    tr:nth-child(even) td { background: #0e0e1a; }
+    .kw { color: #c099ff; } .str { color: #c3e88d; } .cmt { color: #546e7a; font-style: italic; } .prop { color: #f78c6c; } .fn { color: #82aaff; } .var { color: #89ddff; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <nav>
+    <div class="nav-logo">
+      <div class="brand">Furtune.DEV</div>
+      <div class="sub">API Reference</div>
+    </div>
+    <div class="nav-section">Guides</div>
+    <a href="/docs/authentication.html" class="active">Authentication</a>
+    <div class="nav-section">API Reference</div>
+    <a href="/">Nova Keys</a>
+  </nav>
+  <main>
+    <h1>Authentication</h1>
+    <p class="lead">
+      Every request to the Furtune API must be authenticated. Nova designed one method:
+      a Bearer token in the <code>Authorization</code> header. That's it.
+    </p>
+
+    <h2>Nova Keys</h2>
+    <p>
+      Nova Keys are secret API tokens tied to your Furtune account. They begin with
+      <code>ft_</code> and are available to <span class="badge badge-guardian">Guardian</span> members.
+      Create and manage them from <strong>Settings → Security</strong> in the app.
+    </p>
+
+    <h2>Making an authenticated request</h2>
+    <p>Pass your key as a Bearer token on every request:</p>
+    <pre><code><span class="prop">Authorization</span>: <span class="str">Bearer ft_your_key_here</span></code></pre>
+
+    <p>Full example. If you omit <code>stream</code>, the API returns a standard non-streaming JSON response by default:</p>
+    <pre><code><span class="fn">curl</span> https://api.furtune.app/v1/chat/completions \
+  -X POST \
+  -H <span class="str">"Authorization: Bearer ft_your_key_here"</span> \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d <span class="str">'{ "model": "nova", "messages": [{ "role": "user", "content": "Hello" }] }'</span></code></pre>
+
+    <h2>Error responses</h2>
+    <table>
+      <thead><tr><th>Status</th><th>Body</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>401</code></td><td><code>{ "error": { "message": "Missing or invalid API key.", "type": "invalid_request_error", "param": null, "code": "invalid_api_key" } }</code></td><td>No key provided, key is invalid, or key has been revoked.</td></tr>
+        <tr><td><code>403</code></td><td><code>{ "error": { "message": "This API key does not have access to this resource.", "type": "insufficient_permissions", "param": null, "code": "forbidden" } }</code></td><td>Key is valid but the associated account lacks permission for this resource.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-tip">
+      <strong>Security best practice</strong>
+      Store your key in an environment variable — never hardcode it or commit it to source control.
+      Use <code>FURTUNE_API_KEY=ft_...</code> and read it at runtime.
+    </div>
+
+    <div class="callout callout-warning">
+      <strong>Keys are shown once</strong>
+      Nova reveals the full key only at creation time. After that, only the prefix is visible
+      in the UI. If you lose a key, revoke it and create a new one.
+    </div>
+  </main>
+</div>
+</body>
+</html>

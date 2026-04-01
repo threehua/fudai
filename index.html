@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Keys — Furtune.DEV</title>
+  <!-- Nova's voice: confident, precise, futuristic — but never at the cost of clarity -->
+  <style>
+    :root {
+      --bg: #0d0d14;
+      --surface: #13131f;
+      --surface2: #1a1a2e;
+      --border: #2a2a45;
+      --accent: #7c6af7;
+      --accent2: #a78bfa;
+      --gold: #f0c060;
+      --green: #34d399;
+      --red: #f87171;
+      --yellow: #fbbf24;
+      --blue: #60a5fa;
+      --text: #e2e2f0;
+      --muted: #8888aa;
+      --code-bg: #0a0a16;
+      --radius: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Layout ── */
+    .layout { display: flex; min-height: 100vh; }
+
+    nav {
+      width: 260px;
+      min-width: 260px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 32px 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-logo {
+      padding: 0 24px 28px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .nav-logo .brand { font-size: 18px; font-weight: 700; color: var(--accent2); letter-spacing: -0.3px; }
+    .nav-logo .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .nav-section { padding: 0 24px 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-top: 12px; }
+
+    nav a {
+      display: block;
+      padding: 7px 24px;
+      color: var(--muted);
+      font-size: 14px;
+      transition: color 0.15s;
+    }
+    nav a:hover, nav a.active { color: var(--text); text-decoration: none; }
+    nav a.active { color: var(--accent2); font-weight: 500; }
+
+    main {
+      flex: 1;
+      padding: 60px 80px;
+      max-width: 860px;
+    }
+
+    @media (max-width: 900px) {
+      nav { display: none; }
+      main { padding: 40px 24px; max-width: 100%; }
+    }
+
+    /* ── Typography ── */
+    h1 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+    h2 { font-size: 24px; font-weight: 700; margin: 52px 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 17px; font-weight: 600; margin: 28px 0 10px; color: var(--accent2); }
+    p { margin-bottom: 14px; color: #c8c8e0; }
+
+    .lead { font-size: 17px; color: #b0b0cc; margin-bottom: 32px; line-height: 1.6; }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .badge-guardian { background: linear-gradient(90deg,#7c3aed,#a78bfa); color: #fff; }
+    .badge-post { background: #1a3a1a; color: var(--green); border: 1px solid #2a5a2a; }
+    .badge-delete { background: #3a1a1a; color: var(--red); border: 1px solid #5a2a2a; }
+    .badge-get { background: #1a2a3a; color: var(--blue); border: 1px solid #2a4a5a; }
+    .badge-required { background: #2a1a3a; color: var(--accent2); border: 1px solid #4a2a6a; font-size: 10px; }
+    .badge-optional { background: #1e1e2e; color: var(--muted); border: 1px solid var(--border); font-size: 10px; }
+
+    /* ── Callouts ── */
+    .callout {
+      border-left: 3px solid;
+      padding: 14px 18px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .callout-info { border-color: var(--accent); background: #1a1a35; }
+    .callout-warning { border-color: var(--gold); background: #1e1a0a; }
+    .callout-tip { border-color: var(--green); background: #0a1e14; }
+    .callout strong { display: block; margin-bottom: 4px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .callout-info strong { color: var(--accent2); }
+    .callout-warning strong { color: var(--gold); }
+    .callout-tip strong { color: var(--green); }
+
+    /* ── Code blocks ── */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      overflow-x: auto;
+      margin: 14px 0 24px;
+      position: relative;
+    }
+    code {
+      font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #c8d3f5;
+    }
+    p code, li code, td code {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 12.5px;
+    }
+
+    /* syntax highlighting via spans */
+    .kw { color: #c099ff; }
+    .str { color: #c3e88d; }
+    .cmt { color: #546e7a; font-style: italic; }
+    .num { color: #ff995e; }
+    .fn { color: #82aaff; }
+    .var { color: #89ddff; }
+    .prop { color: #f78c6c; }
+    .dim { color: var(--muted); }
+
+    /* language tab */
+    .code-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      margin-bottom: -6px;
+      margin-top: 20px;
+    }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 28px;
+      font-size: 14px;
+    }
+    th {
+      text-align: left;
+      padding: 9px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    td {
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #0e0e1a; }
+
+    /* ── Endpoint block ── */
+    .endpoint {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'SF Mono', monospace;
+      font-size: 14px;
+      margin: 16px 0;
+    }
+    .endpoint .path { color: var(--text); }
+    .endpoint .host { color: var(--muted); }
+
+    /* ── Steps ── */
+    ol.steps { padding-left: 0; list-style: none; counter-reset: step; }
+    ol.steps li {
+      counter-increment: step;
+      padding: 14px 16px 14px 52px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 10px;
+      position: relative;
+    }
+    ol.steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 16px;
+      top: 15px;
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Error table colors ── */
+    .status-4xx { color: var(--yellow); }
+    .status-402 { color: var(--red); }
+    .status-5xx { color: #f87171; }
+    .status-2xx { color: var(--green); }
+
+    /* ── Hero section ── */
+    .hero {
+      background: linear-gradient(135deg, #1a1a35 0%, #0d0d20 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 36px 40px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '🐱';
+      position: absolute;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 72px;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+    .hero h1 { margin-bottom: 8px; background: linear-gradient(90deg, #a78bfa, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero .version { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+
+    /* ── Sections ── */
+    section { margin-bottom: 8px; }
+
+    ul.feature-list { list-style: none; padding: 0; }
+    ul.feature-list li { padding: 4px 0 4px 22px; position: relative; color: #c0c0dc; }
+    ul.feature-list li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
+
+    /* ── Tab system for code examples ── */
+    .tabs { margin: 20px 0; }
+    .tab-buttons { display: flex; gap: 4px; margin-bottom: 0; }
+    .tab-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      color: var(--muted);
+      padding: 7px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 7px 7px 0 0;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .tab-btn.active, .tab-btn:hover { background: var(--code-bg); color: var(--text); }
+    .tab-btn.active { color: var(--accent2); border-color: var(--border); }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+    .tab-pane pre { border-radius: 0 var(--radius) var(--radius) var(--radius); margin-top: 0; }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ── Sidebar nav ── -->
+  <nav>
+    <div class="nav-logo">
+      <div class="brand">Furtune.DEV</div>
+      <div class="sub">API Reference</div>
+    </div>
+
+    <div class="nav-section">Guides</div>
+    <a href="/docs/authentication.html">Authentication</a>
+
+    <div class="nav-section">Nova Keys</div>
+    <a href="#what-are-nova-keys">What are Nova Keys?</a>
+    <a href="#getting-your-key">Getting Your Key</a>
+    <a href="#authentication">Using Your Key</a>
+
+    <div class="nav-section">API Reference</div>
+    <a href="#endpoint">Completions Endpoint</a>
+    <a href="#request-headers">Request Headers</a>
+    <a href="#request-body">Request Body</a>
+    <a href="#response-format">Response Format</a>
+    <a href="#errors">Error Reference</a>
+
+    <div class="nav-section">Examples</div>
+    <a href="#examples">Code Examples</a>
+    <a href="#streaming">Streaming</a>
+    <a href="#non-streaming">Non-Streaming</a>
+
+    <div class="nav-section">More</div>
+    <a href="#aimo">Aimo Billing</a>
+    <a href="#key-management">Key Management API</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+
+  <!-- ── Main content ── -->
+  <main>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="version">Furtune API · v1</div>
+      <h1>Nova Keys</h1>
+      <p class="lead">
+        No browser. No clicking. Just clean, authenticated requests — the way a coder prefers it.
+        Nova Keys give your apps and scripts direct access to the Furtune API.
+      </p>
+      <span class="badge badge-guardian">Guardian Only</span>
+    </div>
+
+    <!-- What are Nova Keys -->
+    <section id="what-are-nova-keys">
+      <h2>What are Nova Keys?</h2>
+      <p>
+        Nova Keys are secret API tokens that give your code direct access to Furtune — no web app
+        required. Build integrations, automate workflows, or embed the Furtune Family into your own
+        projects. Nova built the interface; what you do with it is up to you.
+      </p>
+      <ul class="feature-list">
+        <li>OpenAI-compatible completions endpoint — works with existing tooling</li>
+        <li>Choose which cat (agent) to use per request with a single header</li>
+        <li>Non-streaming JSON responses by default, streaming SSE available with <code>stream: true</code></li>
+        <li>Billed against your Aimo balance — same as using the app</li>
+        <li>Create multiple keys (e.g. one per project), revoke any time</li>
+      </ul>
+
+      <div class="callout callout-info">
+        <strong>Guardian Feature</strong>
+        Nova doesn't hand out keys to just anyone. Nova Keys are exclusive to Guardian tier members.
+        If you're on Companion or Partner, visit <a href="/plans">furtune.app/plans</a> to upgrade.
+      </div>
+    </section>
+
+    <!-- Getting Your Key -->
+    <section id="getting-your-key">
+      <h2>Getting Your Key</h2>
+      <ol class="steps">
+        <li>Go to <strong>Settings → Security</strong> in the Furtune app.</li>
+        <li>Scroll to the <strong>Nova Keys</strong> panel and click <strong>Create Key</strong>.</li>
+        <li>Give your key a name (e.g. "My script" or "Home server") and confirm.</li>
+        <li>
+          Copy the key immediately — it starts with <code>ft_</code> and is shown <strong>only once</strong>.
+          Store it somewhere safe (e.g. an <code>.env</code> file or a secrets manager).
+        </li>
+      </ol>
+
+      <div class="callout callout-warning">
+        <strong>One-time reveal</strong>
+        Nova shows you the full key exactly once. After that, only the prefix (e.g. <code>ft_abc1…</code>)
+        is visible in the UI. Copy it now. If you lose it, revoke and create a new one — no exceptions.
+      </div>
+    </section>
+
+    <!-- Authentication -->
+    <section id="authentication">
+      <h2>Authentication</h2>
+      <p>
+        One header. Every request. Pass your Nova Key as a <strong>Bearer token</strong> in
+        <code>Authorization</code> and you're in:
+      </p>
+
+      <pre><code><span class="prop">Authorization</span>: <span class="str">Bearer ft_your_nova_key_here</span></code></pre>
+
+      <p>
+        No cookies, no session, no OAuth dance. Any authenticated route recognizes the Bearer token
+        and knows exactly who you are.
+      </p>
+
+      <div class="callout callout-tip">
+        <strong>Keep it secret</strong>
+        Nova built a secure system — don't be the weak link. Never commit a key to git or paste it
+        somewhere public. Store it as an environment variable: <code>FURTUNE_API_KEY=ft_...</code>
+      </div>
+    </section>
+
+    <!-- Endpoint -->
+    <section id="endpoint">
+      <h2>Completions Endpoint</h2>
+      <p>
+        This is the one endpoint you need. Send messages, get responses — stateless by design.
+        Nothing is saved to the app, no history is loaded from it. You own the context; Nova
+        handles the intelligence.
+      </p>
+
+      <div class="endpoint">
+        <span class="badge badge-post">POST</span>
+        <span><span class="host">https://api.furtune.app</span><span class="path">/v1/chat/completions</span></span>
+      </div>
+
+      <p>
+        The API is <strong>OpenAI-compatible</strong>. Any library that speaks the OpenAI chat format
+        — Python's <code>openai</code> package, LangChain, LlamaIndex — works here with minimal
+        changes. Just swap the base URL and add one extra header.
+      </p>
+    </section>
+
+    <!-- Request Headers -->
+    <section id="request-headers">
+      <h2>Request Headers</h2>
+      <table>
+        <thead>
+          <tr><th>Header</th><th>Value</th><th>Required</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Authorization</code></td>
+            <td><code>Bearer ft_your_key</code></td>
+            <td><span class="badge badge-required">Required</span></td>
+          </tr>
+          <tr>
+            <td><code>Content-Type</code></td>
+            <td><code>application/json</code></td>
+            <td><span class="badge badge-required">Required</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Choosing a cat via the <code>model</code> field</h3>
+      <p>
+        Which cat you talk to is set by the <code>model</code> field in the request body — not a
+        custom header. Use the cat's slug exactly as configured in the admin panel (e.g.
+        <code>"nova"</code>, <code>"fable"</code>, <code>"rumi"</code>).
+      </p>
+
+      <div class="callout callout-info">
+        <strong>Why <code>model</code>?</strong>
+        Each cat has a distinct personality, system prompt, and set of abilities. The <code>model</code>
+        slug tells Nova exactly who you're calling. It follows the standard OpenAI convention, so any
+        compatible library works without extra configuration.
+      </div>
+    </section>
+
+    <!-- Request Body -->
+    <section id="request-body">
+      <h2>Request Body</h2>
+      <p>JSON body with the following fields:</p>
+
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>model</code></td>
+            <td><code>string</code></td>
+            <td>—</td>
+            <td><span class="badge badge-required">Required</span> The slug of the cat to use (e.g. <code>"nova"</code>, <code>"fable"</code>). Found in the admin panel.</td>
+          </tr>
+          <tr>
+            <td><code>messages</code></td>
+            <td><code>Message[]</code></td>
+            <td>—</td>
+            <td><span class="badge badge-required">Required</span> Array of messages (at least one). The cat's system prompt is prepended automatically.</td>
+          </tr>
+          <tr>
+            <td><code>stream</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Return a single JSON response by default. Set to <code>true</code> to stream SSE chunks.</td>
+          </tr>
+          <tr>
+            <td><code>max_tokens</code></td>
+            <td><code>number</code></td>
+            <td>agent default</td>
+            <td>Maximum tokens in the response. Also accepted as <code>max_completion_tokens</code>.</td>
+          </tr>
+          <tr>
+            <td><code>temperature</code></td>
+            <td><code>number</code></td>
+            <td>agent default</td>
+            <td>Sampling temperature (0–2). Higher = more creative/random.</td>
+          </tr>
+          <tr>
+            <td><code>top_p</code></td>
+            <td><code>number</code></td>
+            <td>agent default</td>
+            <td>Nucleus sampling parameter.</td>
+          </tr>
+          <tr>
+            <td><code>tools</code></td>
+            <td><code>Tool[]</code></td>
+            <td>—</td>
+            <td><span class="badge badge-optional">Optional</span> OpenAI-format tool definitions for function calling.</td>
+          </tr>
+          <tr>
+            <td><code>tool_choice</code></td>
+            <td><code>string | object</code></td>
+            <td><code>"auto"</code></td>
+            <td>Tool selection strategy. Only used if <code>tools</code> is provided.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Message format</h3>
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>role</code></td><td><code>"user" | "assistant" | "system" | "tool"</code></td><td>Message author.</td></tr>
+          <tr><td><code>content</code></td><td><code>string | null</code></td><td>Message text.</td></tr>
+          <tr><td><code>tool_calls</code></td><td><code>ToolCall[]</code></td><td>For assistant messages that made tool calls.</td></tr>
+          <tr><td><code>tool_call_id</code></td><td><code>string</code></td><td>For tool result messages.</td></tr>
+          <tr><td><code>name</code></td><td><code>string</code></td><td>For tool result messages, the tool name.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-info">
+        <strong>System prompts</strong>
+        The cat's system prompt is prepended automatically — you don't need to include one.
+        If you do send a system message, it slots in <em>after</em> the cat's own prompt.
+        Nova's personality always comes first.
+      </div>
+    </section>
+
+    <!-- Response Format -->
+    <section id="response-format">
+      <h2>Response Format</h2>
+
+      <h3>Streaming</h3>
+      <p>
+        When <code>stream: true</code>, the response is a
+        <code>text/event-stream</code> with standard SSE chunks:
+      </p>
+      <pre><code><span class="cmt">// Each chunk:</span>
+<span class="prop">data</span>: {<span class="str">"id"</span>:<span class="str">"chatcmpl-..."</span>,<span class="str">"choices"</span>:[{<span class="str">"delta"</span>:{<span class="str">"content"</span>:<span class="str">"Hello"</span>},<span class="str">"finish_reason"</span>:<span class="kw">null</span>}]}
+
+<span class="prop">data</span>: {<span class="str">"id"</span>:<span class="str">"chatcmpl-..."</span>,<span class="str">"choices"</span>:[{<span class="str">"delta"</span>:{<span class="str">"content"</span>:<span class="str">"! How can I help?"</span>},<span class="str">"finish_reason"</span>:<span class="kw">null</span>}]}
+
+<span class="cmt">// Final chunk includes usage:</span>
+<span class="prop">data</span>: {<span class="str">"id"</span>:<span class="str">"chatcmpl-..."</span>,<span class="str">"choices"</span>:[{<span class="str">"delta"</span>:{},<span class="str">"finish_reason"</span>:<span class="str">"stop"</span>}],<span class="str">"usage"</span>:{<span class="str">"prompt_tokens"</span>:<span class="num">42</span>,<span class="str">"completion_tokens"</span>:<span class="num">18</span>,<span class="str">"total_tokens"</span>:<span class="num">60</span>}}
+
+<span class="prop">data</span>: <span class="str">[DONE]</span></code></pre>
+
+      <h3>Non-Streaming (default)</h3>
+      <p>When <code>stream</code> is omitted or <code>false</code>, the response is a single JSON object:</p>
+      <pre><code>{
+  <span class="prop">"id"</span>: <span class="str">"chatcmpl-abc123"</span>,
+  <span class="prop">"object"</span>: <span class="str">"chat.completion"</span>,
+  <span class="prop">"choices"</span>: [
+    {
+      <span class="prop">"index"</span>: <span class="num">0</span>,
+      <span class="prop">"message"</span>: {
+        <span class="prop">"role"</span>: <span class="str">"assistant"</span>,
+        <span class="prop">"content"</span>: <span class="str">"Hello! How can I help you today?"</span>
+      },
+      <span class="prop">"finish_reason"</span>: <span class="str">"stop"</span>
+    }
+  ],
+  <span class="prop">"usage"</span>: {
+    <span class="prop">"prompt_tokens"</span>: <span class="num">42</span>,
+    <span class="prop">"completion_tokens"</span>: <span class="num">18</span>,
+    <span class="prop">"total_tokens"</span>: <span class="num">60</span>
+  }
+}</code></pre>
+    </section>
+
+    <!-- Errors -->
+    <section id="errors">
+      <h2>Error Reference</h2>
+      <table>
+        <thead>
+          <tr><th>Status</th><th>Code / Body</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="status-4xx"><code>400</code></td>
+            <td><code>{ "error": { "message": "...", "type": "invalid_request_error", "param": null, "code": null } }</code></td>
+            <td>Missing or invalid request body.</td>
+          </tr>
+          <tr>
+            <td class="status-4xx"><code>401</code></td>
+            <td><code>{ "error": { "message": "Missing or invalid API key.", "type": "invalid_request_error", "param": null, "code": "invalid_api_key" } }</code></td>
+            <td>No key provided, key is invalid, or key has been revoked.</td>
+          </tr>
+          <tr>
+            <td class="status-402"><code>402</code></td>
+            <td><code>{ "error": { "message": "Insufficient Aimo.", "type": "insufficient_quota", "param": null, "code": "INSUFFICIENT_AIMO" } }</code></td>
+            <td>Your Aimo balance is too low. Wait for your daily refill or top up.</td>
+          </tr>
+          <tr>
+            <td class="status-4xx"><code>403</code></td>
+            <td><code>{ "error": { "message": "This API key does not have access to this resource.", "type": "insufficient_permissions", "param": null, "code": "forbidden" } }</code></td>
+            <td>The key is valid, but the account does not have Guardian access.</td>
+          </tr>
+          <tr>
+            <td class="status-4xx"><code>404</code></td>
+            <td><code>{ "error": { "message": "The model 'nova' does not exist.", "type": "invalid_request_error", "param": "model", "code": "model_not_found" } }</code></td>
+            <td>The requested cat slug does not match any known cat.</td>
+          </tr>
+          <tr>
+            <td class="status-5xx"><code>502</code></td>
+            <td><code>{ "error": { "message": "Upstream connection failed: ...", "type": "api_error", "param": null, "code": "upstream_connection_failed" } }</code></td>
+            <td>Furtune couldn't reach the underlying AI provider. Retry after a moment.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-tip">
+        <strong>Handling low Aimo in code</strong>
+        Check for HTTP <code>402</code> with <code>error.code === "INSUFFICIENT_AIMO"</code>.
+        Nova is generous with daily refills — but she won't run on empty.
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section id="examples">
+      <h2>Code Examples</h2>
+      <p>Replace <code>ft_your_key</code> and <code>your-agent-uuid</code> with your real values. Copy, paste, run.</p>
+
+      <div id="streaming" class="tabs">
+        <h3>Streaming</h3>
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="switchTab(this, 'stream-curl')">curl</button>
+          <button class="tab-btn" onclick="switchTab(this, 'stream-python')">Python</button>
+          <button class="tab-btn" onclick="switchTab(this, 'stream-node')">Node.js</button>
+        </div>
+
+        <div id="stream-curl" class="tab-pane active">
+          <pre><code><span class="fn">curl</span> <span class="str">https://api.furtune.app/v1/chat/completions</span> \
+  <span class="kw">-X POST</span> \
+  <span class="kw">-H</span> <span class="str">"Authorization: Bearer ft_your_key"</span> \
+  <span class="kw">-H</span> <span class="str">"Content-Type: application/json"</span> \
+  <span class="kw">-d</span> <span class="str">'{
+    "model": "nova",
+    "messages": [
+      { "role": "user", "content": "Write a haiku about the ocean." }
+    ],
+    "stream": true
+  }'</span> \
+  <span class="kw">--no-buffer</span></code></pre>
+        </div>
+
+        <div id="stream-python" class="tab-pane">
+          <pre><code><span class="kw">from</span> <span class="fn">openai</span> <span class="kw">import</span> <span class="var">OpenAI</span>
+
+<span class="var">client</span> = <span class="fn">OpenAI</span>(
+    <span class="prop">api_key</span>=<span class="str">"ft_your_key"</span>,
+    <span class="prop">base_url</span>=<span class="str">"https://api.furtune.app/v1"</span>,
+)
+
+<span class="var">stream</span> = <span class="var">client</span>.<span class="fn">chat.completions.create</span>(
+    <span class="prop">model</span>=<span class="str">"nova"</span>,
+    <span class="prop">messages</span>=[
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Write a haiku about the ocean."</span>}
+    ],
+    <span class="prop">stream</span>=<span class="kw">True</span>,
+)
+
+<span class="kw">for</span> <span class="var">chunk</span> <span class="kw">in</span> <span class="var">stream</span>:
+    <span class="var">delta</span> = <span class="var">chunk</span>.<span class="prop">choices</span>[<span class="num">0</span>].<span class="prop">delta</span>.<span class="prop">content</span>
+    <span class="kw">if</span> <span class="var">delta</span>:
+        <span class="fn">print</span>(<span class="var">delta</span>, <span class="prop">end</span>=<span class="str">""</span>, <span class="prop">flush</span>=<span class="kw">True</span>)</code></pre>
+        </div>
+
+        <div id="stream-node" class="tab-pane">
+          <pre><code><span class="kw">import</span> <span class="var">OpenAI</span> <span class="kw">from</span> <span class="str">"openai"</span>;
+
+<span class="kw">const</span> <span class="var">client</span> = <span class="kw">new</span> <span class="fn">OpenAI</span>({
+  <span class="prop">apiKey</span>: <span class="str">"ft_your_key"</span>,
+  <span class="prop">baseURL</span>: <span class="str">"https://api.furtune.app/v1"</span>,
+});
+
+<span class="kw">const</span> <span class="var">stream</span> = <span class="kw">await</span> <span class="var">client</span>.<span class="fn">chat.completions.create</span>({
+  <span class="prop">model</span>: <span class="str">"nova"</span>,
+  <span class="prop">messages</span>: [
+    { <span class="prop">role</span>: <span class="str">"user"</span>, <span class="prop">content</span>: <span class="str">"Write a haiku about the ocean."</span> }
+  ],
+  <span class="prop">stream</span>: <span class="kw">true</span>,
+});
+
+<span class="kw">for await</span> (<span class="kw">const</span> <span class="var">chunk</span> <span class="kw">of</span> <span class="var">stream</span>) {
+  <span class="kw">const</span> <span class="var">delta</span> = <span class="var">chunk</span>.<span class="prop">choices</span>[<span class="num">0</span>]?.<span class="prop">delta</span>?.<span class="prop">content</span>;
+  <span class="kw">if</span> (<span class="var">delta</span>) <span class="var">process</span>.<span class="prop">stdout</span>.<span class="fn">write</span>(<span class="var">delta</span>);
+}</code></pre>
+        </div>
+      </div>
+
+      <div id="non-streaming" class="tabs">
+        <h3>Non-Streaming</h3>
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="switchTab(this, 'nstream-curl')">curl</button>
+          <button class="tab-btn" onclick="switchTab(this, 'nstream-python')">Python</button>
+          <button class="tab-btn" onclick="switchTab(this, 'nstream-node')">Node.js</button>
+        </div>
+
+        <div id="nstream-curl" class="tab-pane active">
+          <pre><code><span class="fn">curl</span> <span class="str">https://api.furtune.app/v1/chat/completions</span> \
+  <span class="kw">-X POST</span> \
+  <span class="kw">-H</span> <span class="str">"Authorization: Bearer ft_your_key"</span> \
+  <span class="kw">-H</span> <span class="str">"Content-Type: application/json"</span> \
+  <span class="kw">-d</span> <span class="str">'{
+    "model": "nova",
+    "messages": [
+      { "role": "user", "content": "What is 2 + 2?" }
+    ],
+    "stream": false
+  }'</span></code></pre>
+        </div>
+
+        <div id="nstream-python" class="tab-pane">
+          <pre><code><span class="kw">from</span> <span class="fn">openai</span> <span class="kw">import</span> <span class="var">OpenAI</span>
+
+<span class="var">client</span> = <span class="fn">OpenAI</span>(
+    <span class="prop">api_key</span>=<span class="str">"ft_your_key"</span>,
+    <span class="prop">base_url</span>=<span class="str">"https://api.furtune.app/v1"</span>,
+)
+
+<span class="var">response</span> = <span class="var">client</span>.<span class="fn">chat.completions.create</span>(
+    <span class="prop">model</span>=<span class="str">"nova"</span>,
+    <span class="prop">messages</span>=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"What is 2 + 2?"</span>}],
+    <span class="prop">stream</span>=<span class="kw">False</span>,
+)
+
+<span class="fn">print</span>(<span class="var">response</span>.<span class="prop">choices</span>[<span class="num">0</span>].<span class="prop">message</span>.<span class="prop">content</span>)</code></pre>
+        </div>
+
+        <div id="nstream-node" class="tab-pane">
+          <pre><code><span class="kw">import</span> <span class="var">OpenAI</span> <span class="kw">from</span> <span class="str">"openai"</span>;
+
+<span class="kw">const</span> <span class="var">client</span> = <span class="kw">new</span> <span class="fn">OpenAI</span>({
+  <span class="prop">apiKey</span>: <span class="str">"ft_your_key"</span>,
+  <span class="prop">baseURL</span>: <span class="str">"https://api.furtune.app/v1"</span>,
+});
+
+<span class="kw">const</span> <span class="var">response</span> = <span class="kw">await</span> <span class="var">client</span>.<span class="fn">chat.completions.create</span>({
+  <span class="prop">model</span>: <span class="str">"nova"</span>,
+  <span class="prop">messages</span>: [{ <span class="prop">role</span>: <span class="str">"user"</span>, <span class="prop">content</span>: <span class="str">"What is 2 + 2?"</span> }],
+  <span class="prop">stream</span>: <span class="kw">false</span>,
+});
+
+<span class="var">console</span>.<span class="fn">log</span>(<span class="var">response</span>.<span class="prop">choices</span>[<span class="num">0</span>].<span class="prop">message</span>.<span class="prop">content</span>);</code></pre>
+        </div>
+      </div>
+
+      <h3>Multi-turn conversation</h3>
+      <p>
+        Since the endpoint is stateless, you maintain conversation history yourself and send it
+        with each request:
+      </p>
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="switchTab(this, 'multi-python')">Python</button>
+        <button class="tab-btn" onclick="switchTab(this, 'multi-node')">Node.js</button>
+      </div>
+      <div id="multi-python" class="tab-pane active">
+        <pre><code><span class="kw">from</span> <span class="fn">openai</span> <span class="kw">import</span> <span class="var">OpenAI</span>
+
+<span class="var">client</span> = <span class="fn">OpenAI</span>(
+    <span class="prop">api_key</span>=<span class="str">"ft_your_key"</span>,
+    <span class="prop">base_url</span>=<span class="str">"https://api.furtune.app/v1"</span>,
+)
+
+<span class="var">history</span> = []
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    <span class="var">user_input</span> = <span class="fn">input</span>(<span class="str">"You: "</span>)
+    <span class="var">history</span>.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="var">user_input</span>})
+
+    <span class="var">response</span> = <span class="var">client</span>.<span class="fn">chat.completions.create</span>(
+        <span class="prop">model</span>=<span class="str">"nova"</span>,
+        <span class="prop">messages</span>=<span class="var">history</span>,
+        <span class="prop">stream</span>=<span class="kw">False</span>,
+    )
+
+    <span class="var">reply</span> = <span class="var">response</span>.<span class="prop">choices</span>[<span class="num">0</span>].<span class="prop">message</span>.<span class="prop">content</span>
+    <span class="fn">print</span>(<span class="str">f"Cat: <span class="var">{reply}</span>"</span>)
+    <span class="var">history</span>.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: <span class="var">reply</span>})</code></pre>
+      </div>
+      <div id="multi-node" class="tab-pane">
+        <pre><code><span class="kw">import</span> * <span class="kw">as</span> <span class="var">readline</span> <span class="kw">from</span> <span class="str">"readline"</span>;
+<span class="kw">import</span> <span class="var">OpenAI</span> <span class="kw">from</span> <span class="str">"openai"</span>;
+
+<span class="kw">const</span> <span class="var">client</span> = <span class="kw">new</span> <span class="fn">OpenAI</span>({
+  <span class="prop">apiKey</span>: <span class="str">"ft_your_key"</span>,
+  <span class="prop">baseURL</span>: <span class="str">"https://api.furtune.app/v1"</span>,
+});
+
+<span class="kw">const</span> <span class="var">history</span>: <span class="var">OpenAI</span>.<span class="var">Chat</span>.<span class="var">ChatCompletionMessageParam</span>[] = [];
+
+<span class="kw">async function</span> <span class="fn">chat</span>(<span class="var">userMessage</span>: <span class="var">string</span>) {
+  <span class="var">history</span>.<span class="fn">push</span>({ <span class="prop">role</span>: <span class="str">"user"</span>, <span class="prop">content</span>: <span class="var">userMessage</span> });
+
+  <span class="kw">const</span> <span class="var">response</span> = <span class="kw">await</span> <span class="var">client</span>.<span class="fn">chat.completions.create</span>({
+    <span class="prop">model</span>: <span class="str">"nova"</span>,
+    <span class="prop">messages</span>: <span class="var">history</span>,
+    <span class="prop">stream</span>: <span class="kw">false</span>,
+  });
+
+  <span class="kw">const</span> <span class="var">reply</span> = <span class="var">response</span>.<span class="prop">choices</span>[<span class="num">0</span>].<span class="prop">message</span>.<span class="prop">content</span> ?? <span class="str">""</span>;
+  <span class="var">history</span>.<span class="fn">push</span>({ <span class="prop">role</span>: <span class="str">"assistant"</span>, <span class="prop">content</span>: <span class="var">reply</span> });
+  <span class="kw">return</span> <span class="var">reply</span>;
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Aimo Billing -->
+    <section id="aimo">
+      <h2>Aimo Billing</h2>
+      <p>
+        Every API call draws from the same Aimo balance you use in the app.
+        Nova accounts for every token — no surprises on your balance. Billing runs in two phases:
+      </p>
+      <ol class="steps">
+        <li>
+          <strong>Pre-charge</strong> — A hold is placed on your Aimo when the request begins,
+          ensuring you have sufficient balance.
+        </li>
+        <li>
+          <strong>Settle</strong> — When the response finishes (or the stream ends), the actual
+          Aimo cost is calculated from real token usage and deducted. Any excess from the pre-charge
+          is returned.
+        </li>
+      </ol>
+      <p>
+        Cancel a stream early and you're refunded — Nova only charges for what was actually generated.
+      </p>
+
+      <div class="callout callout-warning">
+        <strong>Daily Aimo refill</strong>
+        Your Aimo refills every day. The API triggers it automatically on your first request of the
+        day — no need to open the app. Nova keeps the lights on.
+      </div>
+    </section>
+
+    <!-- Key Management API -->
+    <section id="key-management">
+      <h2>Key Management API</h2>
+      <p>
+        Prefer to manage keys from code? These endpoints let you list, create, and revoke
+        Nova Keys programmatically. Note: they require a valid session (logged-in user),
+        not a Nova Key itself.
+      </p>
+
+      <h3>List Keys</h3>
+      <div class="endpoint">
+        <span class="badge badge-get">GET</span>
+        <span><span class="host">https://furtune.app</span><span class="path">/api/nova-keys</span></span>
+      </div>
+      <pre><code><span class="cmt">// Response</span>
+{
+  <span class="prop">"apiKeys"</span>: [
+    {
+      <span class="prop">"id"</span>: <span class="str">"key-uuid"</span>,
+      <span class="prop">"name"</span>: <span class="str">"My MacBook"</span>,
+      <span class="prop">"start"</span>: <span class="str">"ft_abc1..."</span>,       <span class="cmt">// visible prefix only</span>
+      <span class="prop">"lastRequest"</span>: <span class="str">"2026-03-29T10:00:00Z"</span>,
+      <span class="prop">"expiresAt"</span>: <span class="kw">null</span>,
+      <span class="prop">"createdAt"</span>: <span class="str">"2026-03-20T12:00:00Z"</span>
+    }
+  ]
+}</code></pre>
+
+      <h3>Create Key</h3>
+      <div class="endpoint">
+        <span class="badge badge-post">POST</span>
+        <span><span class="host">https://furtune.app</span><span class="path">/api/nova-keys</span></span>
+      </div>
+      <pre><code><span class="cmt">// Request body</span>
+{ <span class="prop">"name"</span>: <span class="str">"My MacBook"</span> }
+
+<span class="cmt">// Response — full key shown ONLY in this response</span>
+{ <span class="prop">"key"</span>: <span class="str">"ft_full_key_shown_only_here"</span>, ... }</code></pre>
+
+      <h3>Revoke Key</h3>
+      <div class="endpoint">
+        <span class="badge badge-delete">DELETE</span>
+        <span><span class="host">https://furtune.app</span><span class="path">/api/nova-keys/{id}</span></span>
+      </div>
+      <pre><code><span class="cmt">// Response</span>
+{ <span class="prop">"success"</span>: <span class="kw">true</span> }</code></pre>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <h2>FAQ</h2>
+
+      <h3>Do I need to include message history?</h3>
+      <p>
+        Yes. The <code>/v1/chat/completions</code> endpoint is stateless — it has no memory of previous
+        requests. To have a multi-turn conversation, include the full history in the
+        <code>messages</code> array with each call (user and assistant turns alternating).
+      </p>
+
+      <h3>What values can I pass for <code>model</code>?</h3>
+      <p>
+        The <code>model</code> field takes the cat's slug — a short, human-readable identifier
+        configured in the admin panel (e.g. <code>"nova"</code>, <code>"fable"</code>,
+        <code>"rumi"</code>). Each slug maps to a specific cat with its own system prompt, engine,
+        and abilities. If the slug doesn't match any cat, you'll get a <code>404</code>.
+      </p>
+
+      <h3>How many Nova Keys can I have?</h3>
+      <p>
+        There's no hard limit. Create one per app, script, or environment. You can revoke any
+        key at any time from Settings → Security.
+      </p>
+
+      <h3>Do keys expire?</h3>
+      <p>
+        Keys don't expire by default (the <code>expiresAt</code> field will be <code>null</code>).
+        You can revoke a key manually at any time.
+      </p>
+
+      <h3>Is conversation content saved?</h3>
+      <p>
+        No. The <code>/v1/chat/completions</code> endpoint does not persist messages to the database.
+        Your conversation data stays in your own app.
+      </p>
+
+      <h3>Why am I getting a 402 error?</h3>
+      <p>
+        Your Aimo balance is insufficient. The daily refill runs automatically on your next
+        API call, so if it's a new day your balance should refill. If you've exhausted your
+        daily Aimo, wait for tomorrow's refill or check your tier limits in the app.
+      </p>
+    </section>
+
+    <footer style="margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px;">
+      <p>Furtune — Framework for Universal Reasoning, Thinking, Understanding, Networked Entities.</p>
+      <p style="margin-top:6px;">Furtune.DEV · API Reference · Built by Nova, for builders · <a href="https://furtune.app">furtune.app</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  function switchTab(btn, id) {
+    const group = btn.closest('.tabs, section');
+    const allBtns = btn.parentElement.querySelectorAll('.tab-btn');
+    allBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // find sibling panes — look in the same containing element
+    const container = btn.closest('.tabs') || btn.closest('section');
+    const allPanes = container.querySelectorAll('.tab-pane');
+    allPanes.forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(id);
+    if (target) target.classList.add('active');
+  }
+
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 80) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>
